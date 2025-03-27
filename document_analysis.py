@@ -111,7 +111,7 @@ def query_documents(pdf_paths, question, gui):
 class DocumentAnalysisGUI:
     def __init__(self, root):
         self.root = root
-        self.root.title("AI Document Analyzer Pro")
+        self.root.title("AI Document Analyser")
         self.root.geometry("1200x900")
         self.root.configure(bg="#ffffff")
 
@@ -121,7 +121,7 @@ class DocumentAnalysisGUI:
         self.clf, self.vectorizer = train_classifier()
         self.dbqa_results = []
 
-        # Load Icons
+        # Load Icons (ensure these image files exist in your directory)
         self.upload_icon = ImageTk.PhotoImage(Image.open("upload.png").resize((24, 24)))
         self.run_icon = ImageTk.PhotoImage(Image.open("run.png").resize((24, 24)))
         self.reset_icon = ImageTk.PhotoImage(Image.open("reset.png").resize((24, 24)))
@@ -129,7 +129,7 @@ class DocumentAnalysisGUI:
         # Header Frame
         header_frame = tk.Frame(root, bg="#2c3e50", relief="flat")
         header_frame.pack(fill="x")
-        tk.Label(header_frame, text="AI Document Analyzer Pro", font=("Helvetica", 28, "bold"), 
+        tk.Label(header_frame, text="AI Document Analyser", font=("Helvetica", 28, "bold"),
                  bg="#2c3e50", fg="#f1c40f").pack(pady=15)
 
         # Main Frame
@@ -139,10 +139,10 @@ class DocumentAnalysisGUI:
         # Status Frame
         status_frame = tk.Frame(main_frame, bg="#ecf0f1", relief="groove", borderwidth=2)
         status_frame.pack(fill="x", pady=10)
-        self.progress_label = tk.Label(status_frame, text="Status: Ready", font=("Helvetica", 12), 
+        self.progress_label = tk.Label(status_frame, text="Status: Ready", font=("Helvetica", 12),
                                       bg="#ecf0f1", fg="#34495e")
         self.progress_label.pack(side="left", padx=10)
-        self.pdf_counter = tk.Label(status_frame, text="PDFs Selected: 0", font=("Helvetica", 12), 
+        self.pdf_counter = tk.Label(status_frame, text="PDFs Selected: 0", font=("Helvetica", 12),
                                    bg="#ecf0f1", fg="#16a085")
         self.pdf_counter.pack(side="right", padx=10)
 
@@ -151,7 +151,7 @@ class DocumentAnalysisGUI:
         notebook.pack(fill="x", pady=10)
         style = ttk.Style()
         style.configure("TNotebook", background="#ffffff")
-        style.configure("TNotebook.Tab", font=("Helvetica", 12, "bold"), padding=[15, 5], 
+        style.configure("TNotebook.Tab", font=("Helvetica", 12, "bold"), padding=[15, 5],
                         background="#bdc3c7", foreground="#2c3e50")
         style.map("TNotebook.Tab", background=[("selected", "#2c3e50")], foreground=[("selected", "#f1c40f")])
 
@@ -175,23 +175,23 @@ class DocumentAnalysisGUI:
         results_frame.pack(fill="both", expand=True, pady=10)
 
         # Results Text
-        results_label_frame = tk.LabelFrame(results_frame, text="Analysis Results", font=("Helvetica", 14, "bold"), 
+        results_label_frame = tk.LabelFrame(results_frame, text="Analysis Results", font=("Helvetica", 14, "bold"),
                                            bg="#ffffff", fg="#2c3e50", relief="ridge", borderwidth=2)
         results_label_frame.pack(side="left", fill="both", expand=True, padx=5)
-        self.results_text = scrolledtext.ScrolledText(results_label_frame, width=70, height=15, 
+        self.results_text = scrolledtext.ScrolledText(results_label_frame, width=70, height=15,
                                                      font=("Courier", 11), bg="#f9f9f9", fg="#2c3e50", wrap=tk.WORD)
         self.results_text.pack(pady=5, padx=5)
 
         # Errors Text (Narrower width, reduced height)
-        errors_label_frame = tk.LabelFrame(results_frame, text="Error Log", font=("Helvetica", 14, "bold"), 
+        errors_label_frame = tk.LabelFrame(results_frame, text="Error Log", font=("Helvetica", 14, "bold"),
                                           bg="#ffffff", fg="#e74c3c", relief="ridge", borderwidth=2)
         errors_label_frame.pack(side="left", fill="both", expand=False, padx=5, pady=5)
-        self.errors_text = scrolledtext.ScrolledText(errors_label_frame, width=40, height=3, 
+        self.errors_text = scrolledtext.ScrolledText(errors_label_frame, width=40, height=3,
                                                     font=("Courier", 11), bg="#f9f9f9", fg="#e74c3c", wrap=tk.WORD)
         self.errors_text.pack(pady=5, padx=5)
 
         # Chart Canvas (Wider area)
-        self.chart_frame = tk.LabelFrame(results_frame, text="Statistics", font=("Helvetica", 14, "bold"), 
+        self.chart_frame = tk.LabelFrame(results_frame, text="Statistics", font=("Helvetica", 14, "bold"),
                                         bg="#ffffff", fg="#2c3e50", relief="ridge", borderwidth=2)
         self.chart_frame.pack(side="right", fill="both", expand=True, padx=5, pady=5)
 
@@ -201,58 +201,58 @@ class DocumentAnalysisGUI:
         tk.Label(doc_frame, text="Get Document for Answer #:", font=("Helvetica", 12), bg="#ffffff").pack(side="left")
         self.doc_entry = tk.Entry(doc_frame, width=5, font=("Helvetica", 12))
         self.doc_entry.pack(side="left", padx=5)
-        tk.Button(doc_frame, text="Show Document", command=self.show_document, bg="#2ecc71", fg="white", 
+        tk.Button(doc_frame, text="Show Document", command=self.show_document, bg="#2ecc71", fg="white",
                   font=("Helvetica", 12)).pack(side="left")
 
     def setup_plagiarism_tab(self, tab):
-        tk.Label(tab, text="Plagiarism Detection", font=("Helvetica", 18, "bold"), bg="#ffffff", 
+        tk.Label(tab, text="Plagiarism Detection", font=("Helvetica", 18, "bold"), bg="#ffffff",
                  fg="#e67e22").pack(pady=10)
-        tk.Button(tab, text=" Upload Reference", image=self.upload_icon, compound="left", 
-                  command=self.upload_reference, bg="#e67e22", fg="white", font=("Helvetica", 12), 
+        tk.Button(tab, text=" Upload Reference", image=self.upload_icon, compound="left",
+                  command=self.upload_reference, bg="#e67e22", fg="white", font=("Helvetica", 12),
                   width=200, relief="flat").pack(pady=5)
-        tk.Button(tab, text=" Upload PDFs (Max 50)", image=self.upload_icon, compound="left", 
-                  command=self.upload_pdfs, bg="#e67e22", fg="white", font=("Helvetica", 12), 
+        tk.Button(tab, text=" Upload PDFs (Max 50)", image=self.upload_icon, compound="left",
+                  command=self.upload_pdfs, bg="#e67e22", fg="white", font=("Helvetica", 12),
                   width=200, relief="flat").pack(pady=5)
-        tk.Button(tab, text=" Reset PDFs", image=self.reset_icon, compound="left", 
-                  command=self.reset_pdfs, bg="#e74c3c", fg="white", font=("Helvetica", 12), 
+        tk.Button(tab, text=" Reset PDFs", image=self.reset_icon, compound="left",
+                  command=self.reset_pdfs, bg="#e74c3c", fg="white", font=("Helvetica", 12),
                   width=200, relief="flat").pack(pady=5)
-        tk.Button(tab, text=" Run Analysis", image=self.run_icon, compound="left", 
-                  command=self.check_plagiarism, bg="#d35400", fg="white", font=("Helvetica", 12, "bold"), 
+        tk.Button(tab, text=" Run Analysis", image=self.run_icon, compound="left",
+                  command=self.check_plagiarism, bg="#d35400", fg="white", font=("Helvetica", 12, "bold"),
                   width=200, relief="flat").pack(pady=10)
-        tk.Label(tab, text="Compare up to 50 PDFs against a reference document.", 
+        tk.Label(tab, text="Compare up to 50 PDFs against a reference document.",
                  font=("Helvetica", 10, "italic"), bg="#ffffff", fg="#7f8c8d").pack()
 
     def setup_classification_tab(self, tab):
-        tk.Label(tab, text="Document Classification", font=("Helvetica", 18, "bold"), bg="#ffffff", 
+        tk.Label(tab, text="Document Classification", font=("Helvetica", 18, "bold"), bg="#ffffff",
                  fg="#3498db").pack(pady=10)
-        tk.Button(tab, text=" Upload PDFs (Max 50)", image=self.upload_icon, compound="left", 
-                  command=self.upload_pdfs, bg="#3498db", fg="white", font=("Helvetica", 12), 
+        tk.Button(tab, text=" Upload PDFs (Max 50)", image=self.upload_icon, compound="left",
+                  command=self.upload_pdfs, bg="#3498db", fg="white", font=("Helvetica", 12),
                   width=200, relief="flat").pack(pady=5)
-        tk.Button(tab, text=" Reset PDFs", image=self.reset_icon, compound="left", 
-                  command=self.reset_pdfs, bg="#e74c3c", fg="white", font=("Helvetica", 12), 
+        tk.Button(tab, text=" Reset PDFs", image=self.reset_icon, compound="left",
+                  command=self.reset_pdfs, bg="#e74c3c", fg="white", font=("Helvetica", 12),
                   width=200, relief="flat").pack(pady=5)
-        tk.Button(tab, text=" Run Analysis", image=self.run_icon, compound="left", 
-                  command=self.classify, bg="#2980b9", fg="white", font=("Helvetica", 12, "bold"), 
+        tk.Button(tab, text=" Run Analysis", image=self.run_icon, compound="left",
+                  command=self.classify, bg="#2980b9", fg="white", font=("Helvetica", 12, "bold"),
                   width=200, relief="flat").pack(pady=10)
-        tk.Label(tab, text="Classify up to 50 PDFs into financial, healthcare, or legal.", 
+        tk.Label(tab, text="Classify up to 50 PDFs into financial, healthcare, or legal.",
                  font=("Helvetica", 10, "italic"), bg="#ffffff", fg="#7f8c8d").pack()
 
     def setup_dbqa_tab(self, tab):
-        tk.Label(tab, text="Question Answering", font=("Helvetica", 18, "bold"), bg="#ffffff", 
+        tk.Label(tab, text="Question Answering", font=("Helvetica", 18, "bold"), bg="#ffffff",
                  fg="#2ecc71").pack(pady=10)
-        tk.Button(tab, text=" Upload PDFs (Max 50)", image=self.upload_icon, compound="left", 
-                  command=self.upload_pdfs, bg="#2ecc71", fg="white", font=("Helvetica", 12), 
+        tk.Button(tab, text=" Upload PDFs (Max 50)", image=self.upload_icon, compound="left",
+                  command=self.upload_pdfs, bg="#2ecc71", fg="white", font=("Helvetica", 12),
                   width=200, relief="flat").pack(pady=5)
-        tk.Button(tab, text=" Reset PDFs", image=self.reset_icon, compound="left", 
-                  command=self.reset_pdfs, bg="#e74c3c", fg="white", font=("Helvetica", 12), 
+        tk.Button(tab, text=" Reset PDFs", image=self.reset_icon, compound="left",
+                  command=self.reset_pdfs, bg="#e74c3c", fg="white", font=("Helvetica", 12),
                   width=200, relief="flat").pack(pady=5)
-        self.question_entry = tk.Entry(tab, width=50, font=("Helvetica", 12), relief="flat", 
+        self.question_entry = tk.Entry(tab, width=50, font=("Helvetica", 12), relief="flat",
                                       bg="#ecf0f1", fg="#2c3e50")
         self.question_entry.pack(pady=5)
-        tk.Button(tab, text=" Run Analysis", image=self.run_icon, compound="left", 
-                  command=self.get_answers, bg="#27ae60", fg="white", font=("Helvetica", 12, "bold"), 
+        tk.Button(tab, text=" Run Analysis", image=self.run_icon, compound="left",
+                  command=self.get_answers, bg="#27ae60", fg="white", font=("Helvetica", 12, "bold"),
                   width=200, relief="flat").pack(pady=10)
-        tk.Label(tab, text="Ask a question about up to 50 PDFs.", 
+        tk.Label(tab, text="Ask a question about up to 50 PDFs.",
                  font=("Helvetica", 10, "italic"), bg="#ffffff", fg="#7f8c8d").pack()
 
     def update_progress(self, message):
@@ -398,12 +398,12 @@ class DocumentAnalysisGUI:
         else:
             colors = ['#2ecc71', '#e74c3c', '#3498db', '#f1c40f', '#e67e22'][:len(labels)]
         
-        wedges, texts, autotexts = ax.pie(sizes, colors=colors, startangle=90, 
-                                          autopct='%1.0f%%', pctdistance=0.85, 
+        wedges, texts, autotexts = ax.pie(sizes, colors=colors, startangle=90,
+                                          autopct='%1.0f%%', pctdistance=0.85,
                                           textprops={'fontsize': 8})
         
         # Move legend below the chart
-        ax.legend(wedges, labels, title="Categories", loc="center", 
+        ax.legend(wedges, labels, title="Categories", loc="center",
                   bbox_to_anchor=(0.5, -0.1), fontsize=8, ncol=3)  # ncol=3 for horizontal layout
         
         for autotext in autotexts:
@@ -411,7 +411,7 @@ class DocumentAnalysisGUI:
         ax.axis('equal')
         ax.set_title(title, fontsize=12, pad=10)
         
-        # Adjust layout to make room for the legend at the bottom (fixed 'custom' to 'left')
+        # Adjust layout to make room for the legend at the bottom
         plt.subplots_adjust(left=0.1, top=0.9, bottom=0.2)  # Leave space at the bottom
         
         canvas = FigureCanvasTkAgg(fig, master=self.chart_frame)
