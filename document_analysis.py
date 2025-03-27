@@ -388,28 +388,32 @@ class DocumentAnalysisGUI:
 
     def show_pie_chart(self, data, title):
         self.clear_chart()
-        # Increased the figure size to make the pie chart wider
-        fig, ax = plt.subplots(figsize=(7, 5))  # Changed from (5, 5) to (7, 5)
+        fig, ax = plt.subplots(figsize=(7, 5))  # Keep the size reasonable
         labels = [key for key, value in data.items() if value > 0]
         sizes = [value for value in data.values() if value > 0]
-        if not sizes:  # Handle case with no valid data
+        if not sizes:
             labels = ["No Data"]
             sizes = [1]
             colors = ['#7f8c8d']
         else:
             colors = ['#2ecc71', '#e74c3c', '#3498db', '#f1c40f', '#e67e22'][:len(labels)]
-        # Use autopct to show percentages inside the pie chart
+        
         wedges, texts, autotexts = ax.pie(sizes, colors=colors, startangle=90, 
                                           autopct='%1.0f%%', pctdistance=0.85, 
                                           textprops={'fontsize': 8})
-        # Add a legend to display the labels, adjusted position
-        ax.legend(wedges, labels, title="Categories", loc="center left", 
-                  bbox_to_anchor=(1, 0, 0.5, 1), fontsize=8)
-        # Adjust the font size of the percentage labels inside the pie chart
+        
+        # Move legend below the chart
+        ax.legend(wedges, labels, title="Categories", loc="center", 
+                  bbox_to_anchor=(0.5, -0.1), fontsize=8, ncol=3)  # ncol=3 for horizontal layout
+        
         for autotext in autotexts:
             autotext.set_fontsize(8)
         ax.axis('equal')
         ax.set_title(title, fontsize=12, pad=10)
+        
+        # Adjust layout to make room for the legend at the bottom (fixed 'custom' to 'left')
+        plt.subplots_adjust(left=0.1, top=0.9, bottom=0.2)  # Leave space at the bottom
+        
         canvas = FigureCanvasTkAgg(fig, master=self.chart_frame)
         canvas.draw()
         canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
